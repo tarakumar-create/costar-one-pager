@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CoStar Group × Amplitude | One View of the Journey</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+  background: #e5e5e5;
+  min-height: 100vh;
+  display: flex; flex-direction: column; align-items: center;
+  padding: 32px 0 64px;
+}
+.page {
+  width: 850px; min-height: 1202px; background: #fff;
+  box-shadow: 0 8px 40px rgba(0,0,0,0.18);
+  position: relative; margin-bottom: 28px;
+  display: flex; flex-direction: column;
+}
+
+@media print {
+  * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+  @page { size: 850px 1202px; margin: 0; }
+  html, body { background: #fff !important; padding: 0 !important; margin: 0 !important; display: block !important; width: 850px !important; }
+  .page { width: 850px !important; height: 1202px !important; box-shadow: none !important; page-break-after: always; margin: 0 !important; }
+  .page:last-child { page-break-after: auto; }
+  .toolbar { display: none !important; }
+  [contenteditable] { background: none !important; box-shadow: none !important; outline: none !important; }
+  .upload-overlay, .img-overlay, .logo-slot-overlay { display: none !important; }
+}
+
+/* ── HEADER ── */
+.header {
+  background: linear-gradient(150deg, #0a0a1a 0%, #0e1020 50%, #100e30 100%);
+  padding: 16px 40px 24px; position: relative; overflow: hidden; min-height: 210px;
+}
+.kicker {
+  color: rgba(255,255,255,0.42); font-size: 11px; font-weight: 600;
+  letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 18px;
+  position: relative; z-index: 3;
+}
+.logo-bar { display: flex; align-items: center; gap: 0; margin-bottom: 24px; position: relative; z-index: 3; }
+.logo-upload-wrap { position: relative; display: flex; align-items: center; cursor: pointer; }
+.logo-upload-wrap:hover .upload-overlay { opacity: 1; }
+.upload-overlay {
+  position: absolute; inset: -4px; background: rgba(92,107,192,0.25);
+  border: 1.5px dashed rgba(255,255,255,0.5); border-radius: 6px;
+  display: flex; align-items: center; justify-content: center; opacity: 0;
+  transition: opacity 0.15s; pointer-events: none; z-index: 10;
+}
+.upload-overlay span { color: #fff; font-size: 10px; font-weight: 600; background: rgba(0,0,0,0.5); padding: 3px 6px; border-radius: 4px; white-space: nowrap; }
+.amp-logo-img { height: 26px; width: auto; display: block; object-fit: contain; }
+.logo-divider { color: rgba(255,255,255,0.35); font-size: 20px; font-weight: 300; margin: 0 14px; line-height: 1; user-select: none; }
+.partner-logo-img { height: 23px; width: auto; display: block; object-fit: contain; filter: brightness(0) invert(1); }
+.header-content { max-width: 560px; position: relative; z-index: 3; }
+.header h1 { color: #fff; font-size: 32px; font-weight: 700; line-height: 1.16; letter-spacing: -0.6px; margin-bottom: 13px; }
+.header-sub { color: rgba(255,255,255,0.66); font-size: 13.5px; line-height: 1.6; max-width: 500px; }
+.shapes-wrap { position: absolute; top: 0; right: 0; width: 380px; height: 245px; z-index: 1; pointer-events: none; overflow: hidden; }
+.shapes-wrap svg { width: 100%; height: 100%; }
+
+/* ── BODY ── */
+.body { padding: 34px 40px 20px; background: #fff; flex: 1; }
+
+/* Challenge row */
+.challenge-row { display: flex; gap: 34px; align-items: flex-start; margin-bottom: 24px; }
+.challenge-left { flex: 1.18; }
+.section-eyebrow { font-size: 10.5px; font-weight: 700; letter-spacing: 1.6px; text-transform: uppercase; color: #5c6bc0; margin-bottom: 10px; }
+.challenge-intro { font-size: 14px; font-weight: 700; line-height: 1.45; color: #111; margin-bottom: 14px; }
+.challenge-sub { font-size: 12.5px; color: #444; margin-bottom: 10px; line-height: 1.5; }
+.challenge-list { list-style: none; padding: 0; margin: 0; }
+.challenge-list li { display: flex; gap: 10px; align-items: flex-start; font-size: 12.5px; color: #333; line-height: 1.5; margin-bottom: 8px; }
+.challenge-list li::before { content: '●'; color: #5c6bc0; font-size: 9px; margin-top: 4px; flex-shrink: 0; }
+.challenge-right { flex: 0.82; }
+.screenshot-wrap { position: relative; border-radius: 8px; overflow: hidden; cursor: pointer; background: #f0f2f8; min-height: 210px; display: flex; align-items: center; justify-content: center; }
+.screenshot-wrap:hover .img-overlay { opacity: 1; }
+.screenshot-img { width: 100%; height: auto; display: block; border-radius: 6px; }
+.screenshot-placeholder { width: 100%; padding: 18px; }
+.mock-ui { background: #fff; border-radius: 8px; box-shadow: 0 6px 24px rgba(0,0,0,0.13); overflow: hidden; }
+.mock-topbar { background: #f8f9fd; padding: 8px 12px; border-bottom: 1px solid #eef0f7; display: flex; gap: 5px; align-items: center; }
+.mock-dot { width: 8px; height: 8px; border-radius: 50%; }
+.mock-body { padding: 14px 12px; }
+.mock-tag-pill { background: #fdecec; color: #c0392b; font-size: 9px; font-weight: 700; padding: 3px 8px; border-radius: 20px; display: inline-block; margin-bottom: 10px; }
+.mock-steps { display: flex; align-items: flex-end; gap: 6px; height: 66px; margin-bottom: 8px; }
+.mock-step { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px; }
+.mock-step .bar { width: 100%; border-radius: 3px 3px 0 0; }
+.mock-step .st-label { font-size: 7.5px; color: #999; font-weight: 600; }
+.mock-label { font-size: 8px; color: #888; }
+.img-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.45); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; opacity: 0; transition: opacity 0.15s; border-radius: 8px; }
+.img-overlay-btn { background: #fff; color: #333; border: none; padding: 7px 14px; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 6px; }
+.img-overlay-btn:hover { background: #f0f0f0; }
+.img-overlay-btn.danger { background: #fee; color: #c00; }
+
+/* Quick-start use cases */
+.section-title { font-size: 17px; font-weight: 700; color: #111; letter-spacing: -0.3px; margin-bottom: 3px; padding-top: 34px; border-top: 1px solid #ebebeb; }
+.section-lead { font-size: 12.5px; color: #555; line-height: 1.55; margin-bottom: 18px; }
+.uc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+.uc-card { border: 1px solid #e9ebf3; border-radius: 10px; padding: 16px 17px; background: #fbfbfe; }
+.uc-head { display: flex; align-items: center; gap: 8px; margin-bottom: 7px; }
+.uc-num { width: 22px; height: 22px; border-radius: 6px; background: #100e30; color: #fff; font-size: 11px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.uc-title { font-size: 13px; font-weight: 700; color: #111; line-height: 1.25; }
+.uc-tag { display: inline-block; font-size: 8.5px; font-weight: 700; letter-spacing: 0.6px; text-transform: uppercase; padding: 2px 7px; border-radius: 20px; margin-bottom: 8px; }
+.tag-pre { background: #e8f0fe; color: #1a56db; }
+.tag-post { background: #eafaf1; color: #1e8e5a; }
+.tag-both { background: #f3edfd; color: #6d28d9; }
+.uc-desc { font-size: 12px; color: #4a4a4a; line-height: 1.5; }
+
+/* ── FEATURES (back) ── */
+.features-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 40px 24px; }
+.feature { display: flex; gap: 12px; align-items: flex-start; }
+.feature-icon-wrap { flex-shrink: 0; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; margin-top: 1px; }
+.feature-icon-wrap svg { width: 28px; height: 28px; }
+.feature-title { font-size: 12.5px; font-weight: 700; color: #111; line-height: 1.3; margin-bottom: 5px; }
+.feature-desc { font-size: 11.5px; color: #555; line-height: 1.5; }
+
+/* Outcomes band */
+.outcomes { margin-top: 40px; padding-top: 28px; border-top: 1px solid #ebebeb; }
+.outcomes-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 16px; }
+.outcome { border: 1px solid #e9ebf3; border-left: 3px solid #5c6bc0; border-radius: 8px; padding: 13px 14px; background: #fbfbfe; }
+.outcome-hd { font-size: 12.5px; font-weight: 700; color: #111; line-height: 1.25; margin-bottom: 5px; }
+.outcome-desc { font-size: 11px; color: #555; line-height: 1.45; }
+
+/* Why / Now */
+.why-wrap { padding-top: 28px; margin-top: 40px; border-top: 1px solid #ebebeb; }
+.why-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px 30px; margin-top: 18px; }
+.why-item { display: flex; gap: 9px; align-items: flex-start; font-size: 12px; color: #333; line-height: 1.5; }
+.why-item .chk { color: #1e8e5a; font-weight: 800; flex-shrink: 0; margin-top: 1px; }
+.why-item b { color: #111; }
+
+/* Closing */
+.closing { background: linear-gradient(150deg, #0e1020 0%, #100e30 100%); color: #fff; border-radius: 12px; padding: 24px 28px; margin-top: 30px; display: flex; justify-content: space-between; align-items: center; gap: 24px; }
+.closing-text { flex: 1; }
+.closing-title { font-size: 15px; font-weight: 700; margin-bottom: 6px; }
+.closing-desc { font-size: 12px; color: rgba(255,255,255,0.72); line-height: 1.55; }
+.closing-cta { flex-shrink: 0; text-align: right; }
+.closing-cta .lbl { font-size: 10px; text-transform: uppercase; letter-spacing: 1px; color: rgba(255,255,255,0.45); margin-bottom: 5px; }
+.closing-cta .name { font-size: 13.5px; font-weight: 700; }
+.closing-cta .meta { font-size: 11.5px; color: #8ea2f5; margin-top: 3px; }
+
+/* ── LOGO STRIP ── */
+.logo-strip { background: #f5f6fa; padding: 16px 40px 14px; border-top: 1px solid #eee; }
+.logo-strip-label { text-align: center; font-size: 10px; font-weight: 700; letter-spacing: 1.6px; text-transform: uppercase; color: #999; margin-bottom: 14px; }
+.logos-row { display: flex; align-items: center; justify-content: space-around; gap: 8px; flex-wrap: nowrap; }
+.logo-slot { position: relative; display: flex; align-items: center; justify-content: center; padding: 4px; border-radius: 4px; min-width: 60px; }
+.logo-slot-text { font-size: 13px; font-weight: 800; color: #b9bccb; letter-spacing: 0.3px; }
+
+/* ── FOOTER ── */
+.footer { padding: 11px 40px; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #eee; background: #fff; }
+.footer-copy { font-size: 10px; color: #bbb; }
+.ae-block { text-align: right; }
+.ae-name { font-size: 12px; font-weight: 700; color: #222; }
+.ae-title { font-size: 10.5px; color: #777; margin-top: 1px; }
+.ae-contact { font-size: 10.5px; color: #5c6bc0; margin-top: 2px; }
+
+/* ── EDIT UI ── */
+[contenteditable] { outline: none; cursor: text; }
+[contenteditable]:hover { background: rgba(92,107,192,0.06); border-radius: 2px; }
+[contenteditable]:focus { background: rgba(92,107,192,0.09); border-radius: 2px; box-shadow: 0 0 0 2px rgba(92,107,192,0.35); }
+.toolbar { position: fixed; top: 16px; left: 50%; transform: translateX(-50%); background: #1a1040; color: rgba(255,255,255,0.9); display: flex; align-items: center; border-radius: 24px; box-shadow: 0 4px 20px rgba(0,0,0,0.3); z-index: 9999; font-size: 12px; overflow: hidden; }
+.toolbar-item { padding: 9px 16px; cursor: pointer; white-space: nowrap; display: flex; align-items: center; gap: 6px; transition: background 0.12s; border: none; background: none; color: rgba(255,255,255,0.85); font-size: 12px; font-family: inherit; }
+.toolbar-item:hover { background: rgba(255,255,255,0.1); }
+.toolbar-sep { width: 1px; background: rgba(255,255,255,0.15); height: 28px; }
+input[type=file] { display: none; }
+</style>
+</head>
+<body>
+
+<input type="file" id="upload-screenshot" accept="image/*">
+
+<div class="toolbar">
+  <span class="toolbar-item">✏️ Click any text to edit</span>
+  <div class="toolbar-sep"></div>
+  <span class="toolbar-item">🖼️ Hover the chart to replace</span>
+  <div class="toolbar-sep"></div>
+  <button class="toolbar-item" id="save-status" onclick="saveHTML()">💾 Save edits</button>
+  <div class="toolbar-sep"></div>
+  <button class="toolbar-item" onclick="printPDF()">🖨️ Save as PDF</button>
+  <div class="toolbar-sep"></div>
+  <button class="toolbar-item" onclick="resetEdits()" style="color:#ff9a9a">↺ Reset</button>
+</div>
+
+<!-- ══════════════ PAGE 1 (FRONT) ══════════════ -->
+<div class="page">
+
+  <div class="header">
+    <div class="shapes-wrap">
+      <svg viewBox="0 0 380 245" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="190" y="-55" width="155" height="155" rx="22" fill="url(#s1)" opacity="0.9" transform="rotate(18 190 -55)"></rect>
+        <rect x="270" y="20" width="130" height="130" rx="18" fill="url(#s2)" opacity="0.75" transform="rotate(-8 270 20)"></rect>
+        <rect x="130" y="10" width="90" height="90" rx="14" fill="url(#s3)" opacity="0.55" transform="rotate(30 130 10)"></rect>
+        <rect x="300" y="100" width="180" height="180" rx="28" fill="url(#s4)" opacity="0.25" transform="rotate(-15 300 100)"></rect>
+        <defs>
+          <linearGradient id="s1" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#4f8ef7"></stop><stop offset="100%" stop-color="#2563eb"></stop></linearGradient>
+          <linearGradient id="s2" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#06b6d4"></stop><stop offset="100%" stop-color="#0ea5e9"></stop></linearGradient>
+          <linearGradient id="s3" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#7c3aed"></stop><stop offset="100%" stop-color="#6d28d9"></stop></linearGradient>
+          <linearGradient id="s4" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#1e40af"></stop><stop offset="100%" stop-color="#1e3a8a"></stop></linearGradient>
+        </defs>
+      </svg>
+    </div>
+
+    <div contenteditable="true" class="kicker" data-key="kicker">Prepared for Khalon Richard &amp; the CoStar product team</div>
+
+    <div class="logo-bar">
+      <div class="logo-upload-wrap" title="Amplitude">
+        <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MDAwIDEwMDAiIHdpZHRoPSI1MDAwIiBoZWlnaHQ9IjEwMDAiPgoJPHN0eWxlPgoJCXRzcGFuIHsgd2hpdGUtc3BhY2U6cHJlIH0KCQkuc2hwMCB7IGZpbGw6IHdoaXRlIH0gCgk8L3N0eWxlPgoJPHBhdGggaWQ9IlBhdGggMSIgY2xhc3M9InNocDAiIGQ9Ik00MzguOTUgMjI4LjY0QzQzNi4xOSAyMjUgNDMzLjA1IDIyMy4wOSA0MjkuNTYgMjIzLjA5QzQyNi42OCAyMjMuMDkgNDI0LjA1IDIyNC4zOCA0MjIuMzYgMjI1LjQ2QzM5NS44NCAyNDYuMjkgMzU5LjU1IDMzNC41MyAzMjkuODEgNDUwLjhMMzU2LjE0IDQ1MS4xQzQwOC4xMyA0NTEuNjkgNDYxLjgyIDQ1Mi4zIDUxNC44OSA0NTMuMTJDNTAwLjkgMzk5Ljg2IDQ4Ny42OCAzNTQuMjEgNDc1LjU2IDMxNy4zNkM0NTcuODUgMjYzLjUgNDQ1Ljg4IDIzOS4zOSA0MzguOTUgMjI4LjY0WiIgLz4KCTxwYXRoIGlkPSJQYXRoIDIiIGZpbGwtcnVsZT0iZXZlbm9kZCIgY2xhc3M9InNocDAiIGQ9Ik05OTUuOTkgNTAyLjQ3Qzk5NS45OSA3NzcuNSA3NzMuMDMgMTAwMC40NyA0OTcuOTkgMTAwMC40N0MyMjIuOTUgMTAwMC40NyAtMC4wMSA3NzcuNSAtMC4wMSA1MDIuNDdDLTAuMDEgMjI3LjQzIDIyMi45NSA0LjQ3IDQ5Ny45OSA0LjQ3Qzc3My4wMyA0LjQ3IDk5NS45OSAyMjcuNDMgOTk1Ljk5IDUwMi40N1pNODY1LjgxIDQ5MS4wOEM4NjUuODEgNDc4LjI5IDg1Ni44IDQ2Ny42MyA4NDQuNjYgNDY1LjJDODQ0LjU5IDQ2NS4xOSA4NDQuNTIgNDY1LjE3IDg0NC40NCA0NjUuMTVDODQ0LjMgNDY1LjEzIDg0NC4xNiA0NjUuMDggODQ0LjAyIDQ2NS4wNkw4NDMuNTMgNDY1LjAxQzg0Mi4yNCA0NjQuOCA4NDAuOTMgNDY0LjY3IDgzOS41OSA0NjQuNjVMODM2LjEgNDY0LjMyQzc1Mi42OSA0NTguMzUgNjY2Ljg4IDQ1NiA1ODYuMzggNDU0LjM5TDU4Ni4yMiA0NTMuOEM1NDcuMDQgMzA2Ljg0IDQ5OC4xIDE1Ni41OSA0MzIuMTEgMTU2LjU5QzM3MC42MiAxNTYuODcgMzE1LjE5IDI1NS41OSAyNjcuMzIgNDUwLjA3QzIzMy41IDQ0OS42NCAyMDIuNjcgNDQ5LjE3IDE3My42IDQ0OC42N0MxNzEuOTUgNDQ4LjY0IDE3MC40NyA0NDguNjMgMTY5LjE1IDQ0OC42M0MxNjIuOTUgNDQ4LjYzIDE1OS45MiA0NDguODkgMTU4LjQyIDQ0OS4wOUMxNDIuMDUgNDUxLjk5IDEzMC4xNyA0NjYuMjcgMTMwLjE3IDQ4My4wNkMxMzAuMTcgNTAwLjE4IDE0Mi45NSA1MTQuODYgMTU5LjYgNTE3LjI2TDE1OS45NCA1MTcuNjFMMjUxLjY0IDUxNy42MUMyNDMuMTMgNTU2LjUyIDIzNS42NyA1OTUgMjI5LjQ0IDYzMi4wN0wyMjYuNzEgNjQ4LjM5TDIyNi42OCA2NDkuMTdDMjI2Ljc0IDY2MS43NiAyMzcuMDMgNjcyIDI0OS42MSA2NzJDMjU3LjU5IDY3MiAyNjQuODIgNjY3Ljg0IDI2OC45NSA2NjEuMzZMMjY5LjYgNjYxLjg4TDMxNC42OCA1MTcuNjFMNTMxLjgyIDUxNy42MUM1NDguNDEgNTgwLjI5IDU2NS42MiA2NDUuMDEgNTg4LjM2IDcwNS43NUM2MDAuNTIgNzM4LjIzIDYyOC45OSA4MTQuMyA2NzYuNTcgODE0LjY4TDY3Ny4xMSA4MTQuNjhDNzUwLjc1IDgxNC42OCA3NzkuNDUgNjk1LjczIDc5OC40NiA2MTYuOTlDODAyLjU0IDYwMC4wNSA4MDYuMDcgNTg1LjQyIDgwOS40IDU3NC42N0w4MTAuNzMgNTcwLjIzTDgxMC43MiA1NzAuMjNDODExLjA0IDU2OS4xOSA4MTEuMjEgNTY4LjA5IDgxMS4yMSA1NjYuOTRDODExLjIxIDU2MC42NCA4MDYuMSA1NTUuNTMgNzk5LjggNTU1LjUzQzc5NC45MSA1NTUuNTMgNzkwLjc1IDU1OC42IDc4OS4xMiA1NjIuOTJMNzg5LjEgNTYyLjkxTDc4Ny41IDU2Ny4zM0M3ODEuMjUgNTg0LjYzIDc3NS40NyA2MDAuOTkgNzcwLjM1IDYxNS40OUw3NjkuOTYgNjE2LjU4QzczOC4wOSA3MDYuODUgNzIzLjU0IDc0OC4wNSA2OTUuMDQgNzQ4LjA2TDY5NC4zNCA3NDguMDVMNjkzLjk0IDc0OC4xMUw2OTMuMjMgNzQ4LjA5QzY1Ni43NSA3NDguMDkgNjIyLjQgNTk5Ljc5IDYwOS40NyA1NDMuOTdDNjA3LjIzIDUzNC4zIDYwNS4xOCA1MjUuNDIgNjAzLjI5IDUxNy42MUw4MzkuMTggNTE3LjYxQzg0My42MSA1MTcuNjEgODQ3Ljc4IDUxNi41IDg1MS40NCA1MTQuNThDODUxLjQ3IDUxNC41NyA4NTEuNDkgNTE0LjU2IDg1MS41MSA1MTQuNTVDODUxLjg4IDUxNC4zNiA4NTIuMjMgNTE0LjE0IDg1Mi41OSA1MTMuOTNDODUyLjk5IDUxMy43IDg1My4zOCA1MTMuNDcgODUzLjc2IDUxMy4yMkM4NTMuOTUgNTEzLjEgODU0LjEzIDUxMi45NyA4NTQuMzEgNTEyLjg0Qzg1NC44OCA1MTIuNDUgODU1LjQzIDUxMi4wNCA4NTUuOTcgNTExLjZDODU2LjAxIDUxMS41NyA4NTYuMDQgNTExLjU0IDg1Ni4wOCA1MTEuNTFDODYyLjAyIDUwNi42NCA4NjUuODEgNDk5LjI2IDg2NS44MSA0OTEuMDhaTTEyNzIuMzUgNjI3LjA3TDEyMzIuODcgNzI0LjY0TDExMTguMTggNzI0LjY0TDEzMzYuNCAyMTUuMjFMMTQzNy42OSAyMTUuMjFMMTY1NS4xNiA3MjQuNjRMMTU0MS4yMSA3MjQuNjRMMTUwMS43NCA2MjcuMDdMMTI3Mi4zNSA2MjcuMDdaTTEzODYuMyAzNDQuMDVMMTMxMS44MiA1MjkuNUwxNDYyLjI3IDUyOS41TDEzODYuMyAzNDQuMDVaTTIzMDEuNjMgNTI4Ljc2TDIzMDEuNjMgNzI0LjY0TDIxOTguMTEgNzI0LjY0TDIxOTguMTEgNTM3LjdDMjE5OC4xMSA0ODEuMDkgMjE3MC41NSA0NTAuNTYgMjEyMi4xNCA0NTAuNTZDMjEwMC41NCA0NTAuNTYgMjA3Ni43MSA0NjAuMjQgMjA1NS4xMSA0OTAuMDNDMjA1Ni42IDUwMi42OSAyMDU4LjA5IDUxNS4zNSAyMDU4LjA5IDUyOC43NkwyMDU4LjA5IDcyNC42NEwxOTU0LjU2IDcyNC42NEwxOTU0LjU2IDUzNy43QzE5NTQuNTYgNDgxLjA5IDE5MjcuMDEgNDUwLjU2IDE4NzcuODUgNDUwLjU2QzE4NTcuNzQgNDUwLjU2IDE4MzUuNCA0NjIuNDcgMTgxNC41NSA0OTAuNzhMMTgxNC41NSA3MjQuNjRMMTcxMS4wMiA3MjQuNjRMMTcxMS4wMiAzNjcuODlMMTgxNC41NSAzNjcuODlMMTgxNC41NSAzODkuNDlDMTgzNi44OSAzNjguNjMgMTg2MC43MiAzNTYuNzIgMTkwMi40MyAzNTYuNzJDMTk0Ny44NiAzNTYuNzIgMTk4OC4wOCAzNzQuNTkgMjAxNi4zOCA0MDcuMzZDMjA1NC4zNyAzNzIuMzYgMjA5MC4xMSAzNTYuNzIgMjE0NS45NyAzNTYuNzJDMjIzMy4xMSAzNTYuNzIgMjMwMS42MyA0MjQuNDkgMjMwMS42MyA1MjguNzZaTTI3NTYuNjkgNTQ2LjYzQzI3NTYuNjkgNjUwLjE2IDI2NzcuNzUgNzMyLjA4IDI1NzkuNDMgNzMyLjA4QzI1MzkuMjIgNzMyLjA4IDI1MDUuNyA3MjEuNjYgMjQ3OC4xNCA3MDMuNzhMMjQ3OC4xNCA4OTYuNjhMMjM3NC42MiA4OTYuNjhMMjM3NC42MiAzNjcuODlMMjQ3OC4xNCAzNjcuODlMMjQ3OC4xNCAzODguNzRDMjUwNS43IDM3MC44NiAyNTM5LjIyIDM2MC40NCAyNTc5LjQzIDM2MC40NEMyNjc3Ljc1IDM2MC40NCAyNzU2LjY5IDQ0MS42MiAyNzU2LjY5IDU0Ni42M1pNMjY1NC42NiA1NDYuNjNDMjY1NC42NiA0OTMuNzUgMjYxNS45MyA0NDcuNTggMjU2Mi4zIDQ0Ny41OEMyNTMxLjc3IDQ0Ny41OCAyNTAxLjIzIDQ1OCAyNDc4LjE0IDQ4OS4yOUwyNDc4LjE0IDYwMy4yNEMyNTAxLjIzIDYzMy43NyAyNTMxLjc3IDY0NC4yIDI1NjIuMyA2NDQuMkMyNjE1LjkzIDY0NC4yIDI2NTQuNjYgNTk4Ljc3IDI2NTQuNjYgNTQ2LjYzWk0yOTE4LjMxIDcyNC42NEwyODE0Ljc4IDcyNC42NEwyODE0Ljc4IDE5NS44NEwyOTE4LjMxIDE5NS44NEwyOTE4LjMxIDcyNC42NFpNMzEyNi4wOSA3MjQuNjRMMzAyMi41NyA3MjQuNjRMMzAyMi41NyAzNjcuODlMMzEyNi4wOSAzNjcuODlMMzEyNi4wOSA3MjQuNjRaTTMwMTEuNCAyNDIuMDJDMzAxMS40IDIwNy4wMSAzMDM4Ljk1IDE4MC45NSAzMDczLjk2IDE4MC45NUMzMTA4LjIyIDE4MC45NSAzMTM1Ljc4IDIwNy4wMSAzMTM1Ljc4IDI0Mi4wMkMzMTM1Ljc4IDI3Ni4yOCAzMTA4LjIyIDMwMS42IDMwNzMuOTYgMzAxLjZDMzAzOC45NSAzMDEuNiAzMDExLjQgMjc2LjI4IDMwMTEuNCAyNDIuMDJaTTM1MDIuMiA3MTkuNDJDMzQ1OS4wMSA3MzIuODMgMzQzOS42NCA3MzUuODEgMzQwNi4xMyA3MzUuODFDMzMxOS43MyA3MzUuODEgMzI2My4xMyA2NzQuNzQgMzI2My4xMyA1ODIuMzhMMzI2My4xMyA0NTUuMDNMMzE4Ny45MSA0NTUuMDNMMzE4Ny45MSAzNjcuODlMMzI2My4xMyAzNjcuODlMMzI2My4xMyAyNDAuNTNMMzM2NS45MSAyNDAuNTNMMzM2NS45MSAzNjcuODlMMzQ5NC43NiAzNjcuODlMMzQ5NC43NiA0NTUuMDNMMzM2NS45MSA0NTUuMDNMMzM2NS45MSA1ODEuNjRDMzM2NS45MSA2MjEuODYgMzM5MC40OSA2NDAuNDggMzQyOC40NyA2NDAuNDhDMzQ0Ny44MyA2NDAuNDggMzQ2OC42OSA2MzYuMDEgMzQ4OC44IDYzMC44TDM1MDIuMiA3MTkuNDJaTTM5MTcuNzkgNzI0LjY0TDM4MTQuMjYgNzI0LjY0TDM4MTQuMjYgNjk5LjMxQzM3ODUuMjIgNzIyLjQgMzc1Mi40NCA3MzUuODEgMzcxMi4yMyA3MzUuODFDMzYxOC4zOCA3MzUuODEgMzU1NS44MiA2NjguMDMgMzU1NS44MiA1NjQuNTFMMzU1NS44MiAzNjcuODlMMzY1OS4zNSAzNjcuODlMMzY1OS4zNSA1NTQuODNDMzY1OS4zNSA2MTEuNDMgMzY4Ny42NSA2NDEuOTcgMzczNi4wNiA2NDEuOTdDMzc2Mi4xMyA2NDEuOTcgMzc5MC40MyA2MjYuMzMgMzgxNC4yNiA1OTcuMjhMMzgxNC4yNiAzNjcuODlMMzkxNy43OSAzNjcuODlMMzkxNy43OSA3MjQuNjRaTTQzNTcuMjEgNzI0LjY0TDQyNTMuNjkgNzI0LjY0TDQyNTMuNjkgNzAzLjc4QzQyMjYuMTMgNzIxLjY2IDQxOTIuNjIgNzMyLjA4IDQxNTIuNCA3MzIuMDhDNDA1NC4wOSA3MzIuMDggMzk3NC4zOSA2NTAuOSAzOTc0LjM5IDU0NS44OUMzOTc0LjM5IDQ0Mi4zNiA0MDU0LjA5IDM2MC40NCA0MTUyLjQgMzYwLjQ0QzQxOTIuNjIgMzYwLjQ0IDQyMjYuMTMgMzcwLjg2IDQyNTMuNjkgMzg4Ljc0TDQyNTMuNjkgMTk1Ljg0TDQzNTcuMjEgMTk1Ljg0TDQzNTcuMjEgNzI0LjY0Wk00MjUzLjY5IDYwMy4yNEw0MjUzLjY5IDQ4OS4yOUM0MjMwLjYgNDU4Ljc1IDQyMDAuMDYgNDQ4LjMyIDQxNjkuNTMgNDQ4LjMyQzQxMTUuMTYgNDQ4LjMyIDQwNzcuMTcgNDkzLjc1IDQwNzcuMTcgNTQ1Ljg5QzQwNzcuMTcgNTk4Ljc3IDQxMTUuMTYgNjQ0Ljk1IDQxNjkuNTMgNjQ0Ljk1QzQyMDAuMDYgNjQ0Ljk1IDQyMzAuNiA2MzQuNTIgNDI1My42OSA2MDMuMjRaTTQ3NzcuMjcgNTcyLjdMNDUxNC4zNiA1NzIuN0M0NTIyLjU1IDYxNC40MSA0NTUwLjExIDY0Ny4xOCA0NjA2LjcxIDY0Ny4xOEM0NjM1Ljc2IDY0Ny4xOCA0NjU1Ljg3IDYzOC4yNCA0NjY3LjA0IDYyMC4zN0w0Nzc1LjAzIDYyMC4zN0M0NzU1LjY3IDY4OC44OSA0Njg4LjY0IDczNS44MSA0NjA0LjQ4IDczNS44MUM0NDg5Ljc4IDczNS44MSA0NDEyLjMyIDY1My4xNCA0NDEyLjMyIDU0Ni42M0M0NDEyLjMyIDQzNi40MSA0NDg5LjA0IDM1Ni43MSA0NjAxLjUgMzU2LjcxQzQ3MDMuNTMgMzU2LjcxIDQ3NzkuNSA0MjguOTYgNDc3OS41IDUzOS4xOEM0Nzc5LjUgNTU0LjA4IDQ3NzguNzYgNTYyLjI3IDQ3NzcuMjcgNTcyLjdaTTQ1MTUuMSA1MTEuNjNMNDY3Ni43MiA1MTEuNjNDNDY3MC43NiA0NjYuOTQgNDY0My45NSA0NDIuMzYgNDYwMi4yNCA0NDIuMzZDNDU1Mi4zNCA0NDIuMzYgNDUyNC43OSA0NzEuNDEgNDUxNS4xIDUxMS42M1oiIC8+Cjwvc3ZnPg==" class="amp-logo-img" id="amp-logo-display" alt="Amplitude">
+      </div>
+      <span class="logo-divider">×</span>
+      <img src="data:image/svg+xml;base64,PHN2ZyB2ZXJzaW9uPSIxLjIiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgdmlld0JveD0iMCAwIDE1ODAgMjc4Ij4KICA8cGF0aCBmaWxsLXJ1bGU9ImV2ZW5vZGQiIGQ9Ik0yOS41IDIxOSAuMiAxMjYuOWMtLjUtMiAuMS00LjEgMS42LTUuNWw0NC45LTM1LjhjMS40LTEuMiAzLjYtLjkgNC43LjVxMCAuMS4xLjFMODQuOCAxMzNjMS4xIDEuOCAxLjEgMy45LjEgNS43bC01Mi4zIDgwLjdjLTEuMSAxLjYtMi40IDEuNC0zLjEtLjRtMTQ3IDU4LjEtOTUuMS0uMWMtMi0uMS0zLjgtMS4zLTQuNi0zLjJsLTE5LjYtNTQuNWMtLjctMS44LjMtMy44IDIuMS00LjVsNTQtMTcuOGMyLS41IDQgLjIgNS4zIDEuN2w1OS4yIDc1LjZjMS4yIDEuNS42IDIuNy0xLjMgMi44bTk5LjctMTI0LjQtMjkuNCA5Mi4xYy0uNyAxLjktMi40IDMuMi00LjUgMy40bC01Ni45IDIuMmMtMiAwLTMuNS0xLjUtMy42LTMuNWwuMS01Ny43Yy4xLTIuMSAxLjMtMy45IDMuMi00LjdsODguOS0zNGMxLjctLjYgMi44LjQgMi4yIDIuMm0tODUuNC0xMzUgNzYuOSA1N2MxLjYgMS4zIDIuMyAzLjMgMS45IDUuM0wyNTQgMTM1Ljl2LjFjLS42IDEuOC0yLjUgMi44LTQuMyAyLjJsLTUzLjktMTcuOWMtMS45LS43LTMuMy0yLjUtMy40LTQuNWwtNC4zLTk2LjZjMC0xLjkgMS4yLTIuNiAyLjctMS41bS0xNTIuNCA0MSA3Ni45LTU2LjljMS43LTEuMSAzLjktMS4yIDUuNi0uMUwxNjguMyAzNGMxLjUgMS4xIDEuOSAzLjMuOCA0LjlsLTMzLjQgNDYuN2MtMS4zIDEuNi0zLjMgMi4zLTUuMyAxLjlMMzguOSA2MS43Yy0xLjgtLjUtMi4xLTEuOS0uNS0zbTQyOS45IDExOC43aDcuMmwtMy44IDM1LjZjLTE2LjQgNy42LTM0LjMgMTEuNS01Mi41IDExLjMtNDUgMC03MS41LTMzLjUtNzEuNS03MC43IDAtNDcgMzIuOS03Ni40IDczLjMtNzYuNCAyNC40IDAgMzguOSA2LjUgNDcuNCAxMS45bDEuMSAzMC44aC02LjljLTguMS0yMy0yMi4xLTMxLjctNDIuOS0zMS43LTM2LjIgMC00OS4zIDI2LjQtNDkuMyA1Ny43IDAgMzQuMSAxNS45IDY2LjcgNTIuNiA2Ni43IDI2LjkgMCAzNy4yLTEyLjIgNDUuMy0zNS4ybTY4LjUgNDcuM2MtMjcuNiAwLTQ5LjktMjIuNi00OS45LTUwLjcgMC0yOCAyMi4zLTUwLjYgNDkuOS01MC42IDI3LjcgMCA1MCAyMi42IDUwIDUwLjYgMCAyOC4xLTIyLjMgNTAuNy01MCA1MC43bTMwLjgtNDYuMmMwLTIzLjgtMTIuNy00My43LTM0LjQtNDMuNy0xOCAwLTI3LjEgMTQuNy0yNy4xIDM0LjggMCAyMy44IDEyLjcgNDMuNyAzNC40IDQzLjcgMTguMSAwIDI3LjEtMTQuOCAyNy4xLTM0LjhtMzIgMzMuNS0xLjQtMzQuNmg2LjdjNS42IDE5LjIgMTcuOSAzNi4zIDM5LjIgMzYuMyAxOS45IDAgMzMuMy05LjUgMzMuMy0yNS40IDAtMTQtMTAuOC0yMC0yNS44LTI2LjFsLTE5LjgtNy45Yy0xNy4zLTctMzIuMi0xNS4xLTMyLjItMzguMyAwLTIwLjEgMTkuNi0zOC43IDQ3LjYtMzguNyAxNi4zIDAgMzIuOCA0LjggNDAuNCAxMi4ydjMwLjRoLTUuM2MtNC43LTE5LjItMTUuMy0zMi4yLTM2LjMtMzIuMi0xNi44IDAtMjkuMyA5LjMtMjkuMyAyNCAwIDEyLjIgOC4zIDE3LjggMjIuMiAyMy4zbDIxLjIgOC42YzIwIDguMSAzNC41IDE2LjIgMzQuNSA0MCAwIDI2LjMtMjQgNDEtNTMuMyA0MS0xNy40IDAtMzIuNi01LTQxLjctMTIuNm0xMzMuMi04OC4zaDI2LjN2MTEuNWgtMjYuM3Y1Ny4yYzAgMTMuMiA1LjMgMTkuMSAxNi4zIDE5LjEgNC4yLjEgOC4zLS43IDEyLjItMi4zLjggMi4xIDEuNyA0IDIuNSA1LjgtNi4yIDYuMy0xNC43IDkuNy0yMy41IDkuNy0xMy44IDAtMjYuNC03LjItMjYuNC0yNi4ydi02My4yaC0xNXYtNi40YzExLjMtNS45IDE4LjYtMTIuOCAyNy45LTI0LjNoNnptMTEzIDc1LjVjMCA4LjEgMy42IDEyLjUgOSAxMi41cTMuMS0uMSA2LjEtLjZjLjYgMS45IDEuOSA0LjkgMi40IDYuMy00LjUgNC42LTEwLjcgNy4yLTE3LjEgNy4yLTkuNCAwLTE0LjEtNi42LTE3LTE2LjctNi43IDcuNS0xNyAxNi43LTMzLjggMTYuNy0xNy45IDAtMjcuNS0xMC44LTI3LjUtMjUuMiAwLTE3LjEgMTEuMS0yMS4yIDI1LTI1LjJsMzQtMTAuNnYtMy44YzAtMTUuMS02LTI2LjktMjEuNS0yNi45LTEwLjEgMC0xNC42IDQuMi0xNC42IDEzLjZxLjMgNC41IDEuMSA4LjlsLTE0LjkgMS44Yy0yLjYtMi42LTQuMS02LjItMy45LTkuOSAwLTE1LjIgMTUuOC0yNCAzNi4xLTI0IDIyLjIgMCAzNi42IDkuNCAzNi42IDM1LjR6bS0xOC45Ljd2LTI3LjJsLTMwLjcgMTAuMWMtNi40IDItOS41IDUuNy05LjUgMTIuNyAwIDEwLjUgNS44IDE1LjkgMTUuOCAxNS45IDEwLjYgMCAxNi45LTQuOCAyNC40LTExLjVtNzMuOC00OC4yYzguNS0xNS4zIDE2LjktMjguMyAzMC4xLTI4LjMgNC40IDAgNS40IDEgOS4yIDIuNXYxNi45aC04Yy0xMS42IDAtMTguNCAzLTI5LjcgMTcuM3Y0NC4zYzAgOS4yIDMuNyA5LjcgMTUgMTEuMnY3LjhoLTQ4Ljl2LTcuOGM3LjUtMS4xIDE1LTIgMTUtMTAuNXYtNjEuN2wtMTUtNi41di00LjRsMjYuOS04LjhoNi4zem0xNDAuNy03NC40YzI0LjQgMCAzOSA2LjQgNDcuNCAxMS43bDEuMSAzMC44aC02LjhjLTguMi0yMy0yMi4xLTMxLjctNDIuOS0zMS43LTM2LjIgMC00OS40IDI2LjUtNDkuNCA1Ny44IDAgMzQuMSAxNi45IDY3IDUyLjYgNjcgMTYuNCAwIDI0LjYtMy45IDMyLjItMTAuOXYtMjUuNGMwLTEyLjQtMTEuMy0xNC4zLTIyLjYtMTV2LTcuM2g1Ni41djcuM2MtNy41IDEtMTUuMSAyLjYtMTUuMSAxNXYzMy4zYy0xNi40IDkuOS0zNS4yIDE1LTU0LjMgMTQuNy00NSAwLTcxLjgtMzMuNy03MS44LTcwLjkgMC00NyAzMy4zLTc2LjQgNzMuMS03Ni40bTEwNi45IDc0LjRjOC41LTE1LjMgMTcuNC0yOC4zIDMwLjYtMjguMyAzLjQgMCA2LjcuOSA5LjcgMi41djE2LjloLTljLTExLjYgMC0xNy40IDMtMzIuNCAxNy4zdjQ0LjNjMCA5LjIgNy41IDkuNyAxOC44IDExLjJ2Ny44aC00OXYtNy44YzcuNS0xLjEgMTEuMy0yIDExLjMtMTAuNXYtNjEuN2wtMTEuMy02LjV2LTQuNGwyNS44LTguOGg2LjR6bTkwLjEgNzIuOWMtMjcuNyAwLTUwLTIyLjYtNTAtNTAuNiAwLTI4LjEgMjIuMy01MC43IDUwLTUwLjcgMjcuNiAwIDQ5LjkgMjIuNiA0OS45IDUwLjcgMCAyOC0yMi4zIDUwLjYtNDkuOSA1MC42bTMwLjctNDYuMmMwLTIzLjgtMTIuNy00My43LTM0LjQtNDMuNy0xOC4xIDAtMjcuMSAxNC44LTI3LjEgMzQuOCAwIDIzLjggMTIuNyA0My43IDM0LjQgNDMuNyAxOC4xIDAgMjcuMS0xNC44IDI3LjEtMzQuOG0xMDMuNCAyNy41Yy03LjcgOS42LTE5LjEgMTguNC0zMy40IDE4LjQtMTcuNyAwLTI5LjktOC40LTI5LjktMjkuOXYtNTAuMWMwLTYuNy0zLTguNS0xMi05LjZsLTMuMS0uNFYxMjdsMjguOS0zLjRoNC43bC4zIDE4Ljh2NDkuNGMwIDEzLjYgNy4zIDE4LjYgMTggMTguNiAxMSAwIDE5LjctNS45IDI3LjItMTIuMnYtNTMuOWMwLTYuNy0yLjktOC41LTEyLTkuNmwtMy4xLS40VjEyN2wyOC44LTMuNGg0LjdsLjQgMTguOHY1OS4zYzAgNi4zIDEuOSA3LjYgMTAuNCA4LjVsNC43LjZ2Ny4zbC0zMi43IDUuM2gtMi43em02OC40IDExLjN2MzJjMCA4LjUgMy44IDkuNCAxNS4xIDEwLjV2NS44aC00OXYtNS44YzcuNi0xLjEgMTUuMS0yIDE1LjEtMTAuNVYxNDMuM2wtMTUuMS02LjV2LTQuNGwyNy44LTguOGg2LjNsLS45IDE2LjljOC4zLTEwLjcgMjEtMTcuMSAzNC42LTE3LjIgMjcuOSAwIDQyLjUgMjAuNiA0Mi41IDQ2IDAgMzQuMS0yMy4yIDU1LjMtNTEuNyA1NS4zLTEwLjkgMC0yMC45LTMtMjQuNy03LjRtNTcuOC00MC4yYzAtMTkuMS03LjEtMzkuOC0zMC40LTM5LjgtMTEuMSAwLTIzLjYgNS41LTI3LjQgMTIuMnY0MS40YzAgMTcuNSAxMi45IDIzLjIgMjYuNiAyMy4yIDE5IDAgMzEuMi0xMy4yIDMxLjItMzdtNTUuMy01My44djIuOWgtOHYyMS41aC0zLjN2LTIxLjVoLTguMXYtMi45em0yLjkgMGg0LjdsNi44IDIwLjYgNi45LTIwLjZoNC42djI0LjRoLTMuMXYtMTQuNHEtLjEtLjggMC0yLjVWMTI3bC02LjggMjAuNmgtMy4ybC02LjktMjAuNnYzLjVxLjEgMS44LjEgMi43djE0LjRoLTMuMXoiIHN0eWxlPSJmaWxsOiMwMDAiLz4KPC9zdmc+Cg==" class="partner-logo-img" alt="CoStar Group">
+    </div>
+
+    <div class="header-content">
+      <h1 contenteditable="true" data-key="headline">From anonymous visitor<br>to daily licensed power user</h1>
+      <p contenteditable="true" class="header-sub" data-key="header-sub">One place to see how people actually use CoStar's products — every step from a first anonymous visit, across the paywall, to an engaged licensed user, on web and mobile. The behavioral source of truth to replace GA4 and a patchwork of point tools.</p>
+    </div>
+  </div>
+
+  <div class="body">
+
+    <!-- Situation -->
+    <div class="challenge-row">
+      <div class="challenge-left">
+        <div contenteditable="true" class="section-eyebrow" data-key="sit-eyebrow">The moment CoStar is in</div>
+        <p contenteditable="true" class="challenge-intro" data-key="challenge-intro">CoStar is rebuilding and integrating Real Estate Manager into a broader, multi-brand platform — a high-stakes transformation. Today, behavioral data is scattered across GA4, Pendo, LogRocket, and Snowflake, with no unified view of the journey.</p>
+        <p contenteditable="true" class="challenge-sub" data-key="challenge-sub">Without one behavioral source of truth, teams can't easily:</p>
+        <ul class="challenge-list">
+          <li><span contenteditable="true" data-key="bullet-0">See how brokers, owners, and asset managers actually move through workflows — from search to lease to renewal</span></li>
+          <li><span contenteditable="true" data-key="bullet-1">Connect pre-paywall acquisition to post-paywall adoption, retention, and expansion across brands</span></li>
+          <li><span contenteditable="true" data-key="bullet-2">Diagnose the friction that quietly slows adoption, inflates support costs, and stalls expansion</span></li>
+          <li><span contenteditable="true" data-key="bullet-3">Answer, with evidence, which experiences to build, fix, or sunset</span></li>
+        </ul>
+      </div>
+      <div class="challenge-right">
+        <div class="screenshot-wrap" id="screenshot-wrap" onclick="document.getElementById('upload-screenshot').click()">
+          <div class="screenshot-placeholder" id="screenshot-placeholder">
+            <div class="mock-ui">
+              <div class="mock-topbar">
+                <div class="mock-dot" style="background:#ff5f57"></div>
+                <div class="mock-dot" style="background:#ffbd2e"></div>
+                <div class="mock-dot" style="background:#28c840"></div>
+              </div>
+              <div class="mock-body">
+                <div class="mock-tag-pill">↓ Drop-off surfaced at renewal step</div>
+                <div class="mock-steps">
+                  <div class="mock-step"><div class="bar" style="height:60px;background:#6366f1"></div><div class="st-label">Search</div></div>
+                  <div class="mock-step"><div class="bar" style="height:46px;background:#818cf8"></div><div class="st-label">Quote</div></div>
+                  <div class="mock-step"><div class="bar" style="height:36px;background:#a5b4fc"></div><div class="st-label">Lease</div></div>
+                  <div class="mock-step"><div class="bar" style="height:24px;background:#22c55e"></div><div class="st-label">Approve</div></div>
+                  <div class="mock-step"><div class="bar" style="height:14px;background:#ef4444"></div><div class="st-label">Renew</div></div>
+                </div>
+                <div class="mock-label">Workflow funnel · Amplitude journeys + session replay</div>
+              </div>
+            </div>
+          </div>
+          <img class="screenshot-img" id="screenshot-img" src="" alt="" style="display:none;">
+          <div class="img-overlay">
+            <button class="img-overlay-btn" onclick="event.stopPropagation();document.getElementById('upload-screenshot').click()">🖼️ Replace with a real Amplitude screenshot</button>
+            <button class="img-overlay-btn danger" id="remove-screenshot-btn" style="display:none;" onclick="event.stopPropagation();removeScreenshot()">Remove</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quick-start use cases -->
+    <div contenteditable="true" class="section-title" data-key="uc-title">Quick-start opportunities for CoStar</div>
+    <p contenteditable="true" class="section-lead" data-key="uc-lead">Four places to see value fast — spanning acquisition (pre-paywall) and retention (post-paywall), so the whole product org can rally around one platform.</p>
+    <div class="uc-grid">
+
+      <div class="uc-card">
+        <span contenteditable="true" class="uc-tag tag-pre" data-key="uc1-tag">Pre-paywall</span>
+        <div class="uc-head"><div class="uc-num">1</div><div contenteditable="true" class="uc-title" data-key="uc1-title">Rebuild acquisition on evidence, not GA4</div></div>
+        <div contenteditable="true" class="uc-desc" data-key="uc1-desc">Map the anonymous-visitor → trial → subscription funnel across web and mobile. See which channels, content, and page flows actually convert to paid — and exactly where prospects drop before the paywall.</div>
+      </div>
+
+      <div class="uc-card">
+        <span contenteditable="true" class="uc-tag tag-both" data-key="uc2-tag">Pre + post-paywall</span>
+        <div class="uc-head"><div class="uc-num">2</div><div contenteditable="true" class="uc-title" data-key="uc2-title">Follow the journey across the paywall</div></div>
+        <div contenteditable="true" class="uc-desc" data-key="uc2-desc">Connect a pre-paywall visitor to their life as a licensed user — one identity, one journey. Understand how acquisition quality predicts downstream adoption, retention, and expansion.</div>
+      </div>
+
+      <div class="uc-card">
+        <span contenteditable="true" class="uc-tag tag-post" data-key="uc3-tag">Post-paywall</span>
+        <div class="uc-head"><div class="uc-num">3</div><div contenteditable="true" class="uc-title" data-key="uc3-title">Diagnose friction in high-value workflows</div></div>
+        <div contenteditable="true" class="uc-desc" data-key="uc3-desc">Pair funnels with Session Replay across search → lease → renewal to find where users stall — rage clicks, dead ends, confusing steps. Fix what inflates support costs and stalls renewals.</div>
+      </div>
+
+      <div class="uc-card">
+        <span contenteditable="true" class="uc-tag tag-both" data-key="uc4-tag">Pre + post-paywall</span>
+        <div class="uc-head"><div class="uc-num">4</div><div contenteditable="true" class="uc-title" data-key="uc4-title">Turn feedback into a ranked roadmap</div></div>
+        <div contenteditable="true" class="uc-desc" data-key="uc4-desc">AI Feedback reads support tickets, reviews, and survey verbatims and ranks quantified opportunities tied to real behavior — so teams invest in what actually moves adoption and renewals.</div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="footer">
+    <div contenteditable="true" class="footer-copy" data-key="footer-copy-1">© 2026 Amplitude Inc. Shared in confidence with CoStar Group.</div>
+    <div class="ae-block">
+      <div contenteditable="true" class="ae-name" data-key="ae-name-1">Amplitude × CoStar</div>
+      <div contenteditable="true" class="ae-title" data-key="ae-title-1">Front: the opportunity  ·  Back: the full platform →</div>
+    </div>
+  </div>
+
+</div><!-- /page 1 -->
+
+<!-- ══════════════ PAGE 2 (BACK) ══════════════ -->
+<div class="page">
+
+  <div class="body" style="padding-top:32px;">
+
+    <div contenteditable="true" class="section-eyebrow" data-key="cap-eyebrow">The full platform</div>
+    <div contenteditable="true" class="section-title" data-key="cap-title" style="padding-top:0;border-top:none;">One platform: analytics, AI feedback, and session replay</div>
+    <p contenteditable="true" class="section-lead" data-key="cap-lead">Everything CoStar needs to understand behavior, decide what to build next, and act on it — without a dedicated team of analysts, and without ripping out the stack you already own.</p>
+
+    <div class="features-grid">
+
+      <div class="feature">
+        <div class="feature-icon-wrap">
+          <svg viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 6h20l-7 9v7l-6-3v-4L4 6z" stroke="#111" stroke-width="1.6" stroke-linejoin="round"></path></svg>
+        </div>
+        <div class="feature-text">
+          <div contenteditable="true" class="feature-title" data-key="f1-title">Product &amp; journey analytics</div>
+          <div contenteditable="true" class="feature-desc" data-key="f1-desc">Funnels, retention, and the real paths users take across web and mobile — one event model. Product-grade behavioral analytics to replace GA4.</div>
+        </div>
+      </div>
+
+      <div class="feature">
+        <div class="feature-icon-wrap">
+          <svg viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="4" y="6" width="20" height="14" rx="2.5" stroke="#111" stroke-width="1.6"></rect><path d="M11 12l4 2.5-4 2.5v-5z" fill="#111"></path><path d="M4 20l4-3M24 20l-4-3" stroke="#111" stroke-width="1.4" stroke-linecap="round"></path></svg>
+        </div>
+        <div class="feature-text">
+          <div contenteditable="true" class="feature-title" data-key="f2-title">Session Replay</div>
+          <div contenteditable="true" class="feature-desc" data-key="f2-desc">Watch real sessions and see the "why" behind the numbers — rage clicks, dead clicks, friction. An AI agent reviews sessions and surfaces friction for you.</div>
+        </div>
+      </div>
+
+      <div class="feature">
+        <div class="feature-icon-wrap">
+          <svg viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M14 3l2.5 6.5L23 12l-6.5 2.5L14 21l-2.5-6.5L5 12l6.5-2.5L14 3z" stroke="#111" stroke-width="1.5" stroke-linejoin="round"></path></svg>
+        </div>
+        <div class="feature-text">
+          <div contenteditable="true" class="feature-title" data-key="f3-title">AI Feedback</div>
+          <div contenteditable="true" class="feature-desc" data-key="f3-desc">Turns app reviews, support tickets, and survey verbatims into ranked, quantified opportunities — tied to real behavior, in plain language.</div>
+        </div>
+      </div>
+
+      <div class="feature">
+        <div class="feature-icon-wrap">
+          <svg viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="3" y="7" width="18" height="12" rx="3" stroke="#111" stroke-width="1.6"></rect><path d="M7 19l-3 4v-4" stroke="#111" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path><path d="M8 12h9M8 15h6" stroke="#111" stroke-width="1.4" stroke-linecap="round"></path></svg>
+        </div>
+        <div class="feature-text">
+          <div contenteditable="true" class="feature-title" data-key="f4-title">AI agents &amp; assistant</div>
+          <div contenteditable="true" class="feature-desc" data-key="f4-desc">Anyone asks a question in plain language and gets a chart. Agents monitor metrics and replays and flag what changed and why — no analyst team required.</div>
+        </div>
+      </div>
+
+      <div class="feature">
+        <div class="feature-icon-wrap">
+          <svg viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 4h12l4 4v16H6V4z" stroke="#111" stroke-width="1.6" stroke-linejoin="round"></path><path d="M17 4v5h5" stroke="#111" stroke-width="1.5"></path><path d="M9 14h9M9 18h6" stroke="#111" stroke-width="1.4" stroke-linecap="round"></path></svg>
+        </div>
+        <div class="feature-text">
+          <div contenteditable="true" class="feature-title" data-key="f5-title">Guides &amp; Surveys</div>
+          <div contenteditable="true" class="feature-desc" data-key="f5-desc">Drive adoption of newly integrated modules with in-product guides, and feed targeted cohorts to your existing tools. Meet users at the moment of friction.</div>
+        </div>
+      </div>
+
+      <div class="feature">
+        <div class="feature-icon-wrap">
+          <svg viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg"><ellipse cx="14" cy="7" rx="9" ry="3.5" stroke="#111" stroke-width="1.6"></ellipse><path d="M5 7v14c0 1.9 4 3.5 9 3.5s9-1.6 9-3.5V7" stroke="#111" stroke-width="1.6"></path><path d="M5 14c0 1.9 4 3.5 9 3.5s9-1.6 9-3.5" stroke="#111" stroke-width="1.4"></path></svg>
+        </div>
+        <div class="feature-text">
+          <div contenteditable="true" class="feature-title" data-key="f6-title">Warehouse-native &amp; governed</div>
+          <div contenteditable="true" class="feature-desc" data-key="f6-desc">Runs on Snowflake/Databricks with a unified taxonomy and identity — enterprise-governed. MCP-native, and integrates with the stack you own, including Optimizely.</div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Outcomes band -->
+    <div class="outcomes">
+      <div contenteditable="true" class="section-title" data-key="out-title" style="padding-top:0;border-top:none;">Outcomes CoStar can expect</div>
+      <div class="outcomes-grid">
+        <div class="outcome">
+          <div contenteditable="true" class="outcome-hd" data-key="out1-hd">Launch faster, safer</div>
+          <div contenteditable="true" class="outcome-desc" data-key="out1-desc">Instrument the Real Estate Manager rebuild before release — protect adoption and platform ROI.</div>
+        </div>
+        <div class="outcome">
+          <div contenteditable="true" class="outcome-hd" data-key="out2-hd">Higher renewals</div>
+          <div contenteditable="true" class="outcome-desc" data-key="out2-desc">Catch the friction in high-value workflows that quietly drives churn and stalls expansion.</div>
+        </div>
+        <div class="outcome">
+          <div contenteditable="true" class="outcome-hd" data-key="out3-hd">Lower support costs</div>
+          <div contenteditable="true" class="outcome-desc" data-key="out3-desc">Fix the confusing steps at the source instead of absorbing them as tickets.</div>
+        </div>
+        <div class="outcome">
+          <div contenteditable="true" class="outcome-hd" data-key="out4-hd">Smarter portfolio calls</div>
+          <div contenteditable="true" class="outcome-desc" data-key="out4-desc">One behavioral source of truth across brands — decisions backed by evidence, not guesswork.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Why Amplitude / Why now -->
+    <div class="why-wrap">
+      <div contenteditable="true" class="section-title" data-key="why-title" style="padding-top:0;border-top:none;">Why Amplitude, why now</div>
+      <div class="why-grid">
+        <div class="why-item"><span class="chk">✓</span><span contenteditable="true" data-key="why-1"><b>One source of truth.</b> Replace GA4, Pendo, LogRocket, and manual Snowflake queries with one governed platform.</span></div>
+        <div class="why-item"><span class="chk">✓</span><span contenteditable="true" data-key="why-2"><b>Built for the full journey.</b> Pre- and post-paywall, web and mobile — legible to acquisition and retention teams alike.</span></div>
+        <div class="why-item"><span class="chk">✓</span><span contenteditable="true" data-key="why-3"><b>No analyst bottleneck.</b> Anyone asks questions in plain language; AI agents monitor and flag what changed.</span></div>
+        <div class="why-item"><span class="chk">✓</span><span contenteditable="true" data-key="why-4"><b>Fits your stack.</b> Warehouse-native on Snowflake, MCP-native for Claude, and integrates with Optimizely.</span></div>
+        <div class="why-item" style="grid-column:1 / -1;"><span class="chk">✓</span><span contenteditable="true" data-key="why-5"><b>The timing is now.</b> Real Estate Manager is being rebuilt and integrated today. Instrumenting behavior during the transformation protects adoption, ROI, and renewals — instead of discovering problems after launch.</span></div>
+      </div>
+    </div>
+
+    <!-- Closing -->
+    <div class="closing">
+      <div class="closing-text">
+        <div contenteditable="true" class="closing-title" data-key="closing-title">Next step: a 45-minute working session</div>
+        <div contenteditable="true" class="closing-desc" data-key="closing-desc">Bring your team and one real question. We'll map a high-value journey live — the pre-paywall acquisition funnel or search → lease → renewal — and show the quick-start setup on CoStar's own Snowflake data. An easy next move toward a broader demo.</div>
+      </div>
+      <div class="closing-cta">
+        <div class="lbl">Your Amplitude contact</div>
+        <div contenteditable="true" class="name" data-key="closing-name">Liz Valenta</div>
+        <div contenteditable="true" class="meta" data-key="closing-meta">liz.valenta@amplitude.com<br>meetings.amplitude.com/c/Liz_Valenta</div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="logo-strip">
+    <div contenteditable="true" class="logo-strip-label" data-key="logo-label">Product teams at data, media &amp; subscription businesses run on Amplitude</div>
+    <div class="logos-row">
+      <div class="logo-slot"><span contenteditable="true" class="logo-slot-text" data-key="logo-0">NBCUniversal</span></div>
+      <div class="logo-slot"><span contenteditable="true" class="logo-slot-text" data-key="logo-1">Walmart</span></div>
+      <div class="logo-slot"><span contenteditable="true" class="logo-slot-text" data-key="logo-2">Ford</span></div>
+      <div class="logo-slot"><span contenteditable="true" class="logo-slot-text" data-key="logo-3">Atlassian</span></div>
+      <div class="logo-slot"><span contenteditable="true" class="logo-slot-text" data-key="logo-4">HubSpot</span></div>
+      <div class="logo-slot"><span contenteditable="true" class="logo-slot-text" data-key="logo-5">DoorDash</span></div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <div contenteditable="true" class="footer-copy" data-key="footer-copy-2">© 2026 Amplitude Inc. Shared in confidence with CoStar Group.</div>
+    <div class="ae-block">
+      <div contenteditable="true" class="ae-name" data-key="ae-name-2">Liz Valenta</div>
+      <div contenteditable="true" class="ae-title" data-key="ae-title-2">Account Executive, Amplitude</div>
+      <div contenteditable="true" class="ae-contact" data-key="ae-contact-2">liz.valenta@amplitude.com</div>
+    </div>
+  </div>
+
+</div><!-- /page 2 -->
+
+<script>
+const STORAGE_KEY = 'costar-one-pager-edits';
+
+function saveToStorage() {
+  const data = {};
+  document.querySelectorAll('[contenteditable][data-key]').forEach(el => { data[el.dataset.key] = el.innerHTML; });
+  const ssImg = document.getElementById('screenshot-img');
+  if (ssImg && ssImg.src && ssImg.style.display !== 'none') data['__screenshot'] = ssImg.src;
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+  const btn = document.getElementById('save-status');
+  if (btn) { btn.textContent = '✓ Saved'; setTimeout(() => { btn.textContent = '💾 Save edits'; }, 1500); }
+}
+
+function restoreFromStorage() {
+  let data;
+  try { data = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}'); } catch(e) { return; }
+  document.querySelectorAll('[contenteditable][data-key]').forEach(el => { if (data[el.dataset.key] !== undefined) el.innerHTML = data[el.dataset.key]; });
+  if (data['__screenshot']) {
+    const img = document.getElementById('screenshot-img');
+    img.src = data['__screenshot']; img.style.display = 'block';
+    document.getElementById('screenshot-placeholder').style.display = 'none';
+    document.getElementById('remove-screenshot-btn').style.display = 'flex';
+  }
+}
+
+function resetEdits() { if (!confirm('Reset all edits back to defaults?')) return; localStorage.removeItem(STORAGE_KEY); location.reload(); }
+
+function saveHTML() {
+  const clone = document.documentElement.cloneNode(true);
+  clone.querySelectorAll('.toolbar, input[type=file]').forEach(el => el.remove());
+  clone.querySelectorAll('[contenteditable]').forEach(el => el.removeAttribute('contenteditable'));
+  clone.querySelectorAll('.upload-overlay, .img-overlay, .logo-slot-overlay').forEach(el => el.remove());
+  clone.querySelectorAll('[onclick]').forEach(el => el.removeAttribute('onclick'));
+  const html = '<!DOCTYPE html>\n' + clone.outerHTML;
+  const blob = new Blob([html], { type: 'text/html' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob); a.download = 'costar-amplitude-one-pager.html';
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+}
+
+function printPDF() { if (document.activeElement) document.activeElement.blur(); setTimeout(() => window.print(), 150); }
+
+function readFile(file, cb) { const r = new FileReader(); r.onload = e => cb(e.target.result); r.readAsDataURL(file); }
+
+document.getElementById('upload-screenshot')?.addEventListener('change', function() {
+  if (!this.files[0]) return;
+  readFile(this.files[0], url => {
+    const img = document.getElementById('screenshot-img');
+    img.src = url; img.style.display = 'block';
+    document.getElementById('screenshot-placeholder').style.display = 'none';
+    document.getElementById('remove-screenshot-btn').style.display = 'flex';
+    saveToStorage();
+  });
+  this.value = '';
+});
+
+function removeScreenshot() {
+  const img = document.getElementById('screenshot-img');
+  img.style.display = 'none'; img.src = '';
+  document.getElementById('screenshot-placeholder').style.display = 'block';
+  document.getElementById('remove-screenshot-btn').style.display = 'none';
+  saveToStorage();
+}
+
+document.addEventListener('input', saveToStorage);
+restoreFromStorage();
+</script>
+</body></html>
